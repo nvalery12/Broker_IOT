@@ -1,4 +1,8 @@
-class Topic{
+const { io } = require("socket.io-client");
+
+let socket = io();
+
+export class Topic{
 
 	constructor(topicName){
 
@@ -8,7 +12,7 @@ class Topic{
 		this.subTopic = [];
 		this.savedMessage;
 		this.lastWillMessage = 'service disconnected';
-    
+
 	};
     
 	addSubscriber(idClient){
@@ -36,18 +40,16 @@ class Topic{
   };
 
   emitPublish(msg, route, topic){
-    
-
-
+    if (subscribers.length == 0) {
+      this.savedMessage = msg;
+    } else {
+      this.subscribers.forEach(element => {
+        socket.to(element).emit('xsss',msg);
+      });
+    }
   }
 }
 
-
-let topico = new Topic("cuarto");
-
-topico.subscribers = [11111,22222,33333,444444,55555];
-console.log(topico.subscribers);
-
-topico.popSubscriber(444444);
-
-console.log(topico);
+// module.exports = {
+//   Topic:Topic
+// }
