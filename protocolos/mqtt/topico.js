@@ -1,3 +1,7 @@
+const { io } = require("socket.io-client");
+
+let socket = io();
+
 class Topic{
 
 	constructor(topicName){
@@ -36,8 +40,12 @@ class Topic{
   };
 
   emitPublish(msg, route, topic){
-    
-
-
+    if (subscribers.length == 0) {
+      this.savedMessage = msg;
+    } else {
+      this.subscribers.forEach(element => {
+        socket.to(element).emit('xsss',msg);
+      });
+    }
   }
 }
