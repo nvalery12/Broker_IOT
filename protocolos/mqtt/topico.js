@@ -41,13 +41,3 @@ class Topic{
 
   }
 }
-
-
-let topico = new Topic("cuarto");
-
-topico.subscribers = [11111,22222,33333,444444,55555];
-console.log(topico.subscribers);
-
-topico.popSubscriber(444444);
-
-console.log(topico);
