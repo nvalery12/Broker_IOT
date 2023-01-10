@@ -2,7 +2,7 @@ const { io } = require("socket.io-client");
 
 let socket = io();
 
-class Topic{
+export class Topic{
 
 	constructor(topicName){
 
@@ -12,7 +12,7 @@ class Topic{
 		this.subTopic = [];
 		this.savedMessage;
 		this.lastWillMessage = 'service disconnected';
-    
+
 	};
     
 	addSubscriber(idClient){
@@ -49,3 +49,7 @@ class Topic{
     }
   }
 }
+
+// module.exports = {
+//   Topic:Topic
+// }

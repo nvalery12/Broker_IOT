@@ -8,6 +8,12 @@ const io = new Server(server);
 const fs = require('fs');
 const { Socket } = require('socket.io-client');
 
+// Protocolos
+// MQTT
+const eventos = require('./protocolos/mqtt/funcionesDeManejo.js');
+import {Topic} from './protocolos/mqtt/topico.js';
+
+const topic = new Topic('/');
 
 //--------------------------------
 
@@ -29,7 +35,7 @@ app.get('/', (req, res) => {
 io.on('connect', (socket) => {
   socket.on('PUBLISH', (msg, ruta, callback) => {
       
-      publish(topic, ruta, msg);
+      eventos.publish(topic, ruta, msg);
 
       escribirLog(socket, ruta, 'PUBLISH')
       callback("PUBLICASTE CON EXITO");
@@ -38,7 +44,7 @@ io.on('connect', (socket) => {
   socket.on('SUBSCRIBE', (msg, ruta, callback) => {
       // suscribe(topic,route,socket.id);
 
-      suscribe(topic, ruta, socket.id);
+      eventos.suscribe(topic, ruta, socket.id);
 
       escribirLog(socket, ruta, 'SUBSCRIBE');
       callback("SUBSCRIBE CON EXITO");

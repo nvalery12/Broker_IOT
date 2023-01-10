@@ -4,12 +4,8 @@ function publish (topic, route, msg){
   let raiz = route.indexOf('/');
   //Validamos si estamos en la ruta destino, o por defecto, raiz
   if (raiz == 0 && route.length == 1) {
-    //Confirmamos si tenemos subscriptores y si no guardamos el mensaje
-    if (topic.subscribers.length == 0) {
-      topic.savedMessage = msg;
-    } else {
-      topic.emitPublish(msg);
-    }
+    //Enviamos el mensaje a los subscriptores del topic
+    topic.emitPublish(msg);
     return;
   } else {
     //Corregimos la ruta en caso de tener / al inicio
@@ -18,11 +14,7 @@ function publish (topic, route, msg){
     }
 
     //Enviamos el mensaje a todos los subscriptores en el topic.
-    if (topic.subscribers.length == 0) {
-      topic.savedMessage = msg;
-    } else {
-      topic.emitPublish(msg);
-    }
+    topic.emitPublish(msg);
 
      // Conseguimos subtopic a movernos y el resto de la ruta
       let next = route.slice(0,raiz + 1);
@@ -42,12 +34,19 @@ function publish (topic, route, msg){
           index = i;
         }
       }
+
+      //En caso de no existir el subtopic se crea
+
+      if (index == undefined) {
+        topic.addSubTopic(next);
+        index = topic.subTopic.length - 1;
+      }
       
       // Publicamos en el subtopic
 
       publish(topic.subTopic[index],rest,msg);
 
-  }
+  }``
 }
 
 //Subscribir
@@ -71,7 +70,7 @@ function suscribe(topic, route, idClient) {
 
       let index;
 
-      if (topic.subTopic.length == 0) {
+      if (topic.subTopic == undefined) {
         topic.addSubTopic(next);
       }
 
@@ -81,10 +80,22 @@ function suscribe(topic, route, idClient) {
           index = i;
         }
       }
+
+      //En caso de no existir el subtopic se crea
+
+      if (index == undefined) {
+        topic.addSubTopic(next);
+        index = topic.subTopic.length - 1;
+      }
       
       // Subscribimos en el subtopic
 
-      suscribe(topic.subTopic[index],rest,msg);
+      suscribe(topic.subTopic[index],rest,idClient);
 
   }
+}
+
+module.exports = {
+  suscribe:suscribe,
+  publish:publish
 }
