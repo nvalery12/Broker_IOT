@@ -11,11 +11,12 @@ const { Socket } = require('socket.io-client');
 // Protocolos
 // MQTT
 const eventos = require('./protocolos/mqtt/funcionesDeManejo.js');
-import {Topic} from './protocolos/mqtt/topico.js';
+const { Topic } = require('./protocolos/mqtt/topico')
 
 const topic = new Topic('/');
 
 //--------------------------------
+//Funciones de servidor
 
 function escribirLog(socket, ruta, evento){
   fs.appendFile('./logs.txt', 'autor: ' + socket.conn.remoteAddress + ' Topico: '+ ruta + ' evento: ' + evento + '\n', (error)=>{
@@ -30,24 +31,30 @@ app.get('/', (req, res) => {
 });
 
 // ------------------------------------------------------
+//Instancia de los topicos
 
+const topico = new Topic('/')
+
+// ------------------------------------------------------
 
 io.on('connect', (socket) => {
   socket.on('PUBLISH', (msg, ruta, callback) => {
       
-      eventos.publish(topic, ruta, msg);
+      // eventos.publish(topic, ruta, msg);
 
       escribirLog(socket, ruta, 'PUBLISH')
       callback("PUBLICASTE CON EXITO");
+      console.log(socket.id);
   });
 
   socket.on('SUBSCRIBE', (msg, ruta, callback) => {
       // suscribe(topic,route,socket.id);
 
-      eventos.suscribe(topic, ruta, socket.id);
+      // eventos.suscribe(topic, ruta, socket.id);
 
       escribirLog(socket, ruta, 'SUBSCRIBE');
       callback("SUBSCRIBE CON EXITO");
+      console.log(socket.id);
   });
 
   socket.on('UNSUBSCRIBE', (msg, ruta, callback) => {
@@ -55,8 +62,11 @@ io.on('connect', (socket) => {
 
       escribirLog(socket, ruta, 'UNSUBSCRIBE')
       callback("UNSUBSCRIBE CON EXITO");
+      console.log(socket.id);
   });
-  
+
+  console.log(socket.id);
+  console.log(topico);
 });
 
 //---------------------------------------------------------

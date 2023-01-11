@@ -9,6 +9,18 @@ socket.on("connect", () => {
   console.log('cliente conectado: ' + socket.connected); // true
 });
 
-// socket.emit("PUBLISH", msg, ruta, (callback) => {
-//   console.log(callback); // "got it"
+socket.emit("PUBLISH", msg, ruta, (response) => {
+  console.log(response); // "got it"
+});
+
+socket.emit("SUBSCRIBE", msg, ruta, (response) => {
+  console.log(response); // "got it"
+});
+
+socket.emit("UNSUBSCRIBE", msg, ruta, (response) => {
+  console.log(response); // "got it"
+});
+
+// socket.emit("PINGREQ", msg, ruta, (response) => {
+//   console.log(response); // "got it"
 // });

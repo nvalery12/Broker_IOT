@@ -1,8 +1,8 @@
-const { io } = require("socket.io-client");
+const { io } = require("../../node_modules/socket.io-client");
 
 let socket = io();
 
-export class Topic{
+class Topic{
 
 	constructor(topicName){
 
@@ -50,6 +50,6 @@ export class Topic{
   }
 }
 
-// module.exports = {
-//   Topic:Topic
-// }
+module.exports = {
+  Topic:Topic
+}
