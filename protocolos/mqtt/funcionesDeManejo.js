@@ -91,6 +91,17 @@ function suscribe(topic, route, idClient) {
   }
 }
 
+//Desubscribir
+function unsuscribe(topic,idClient) {
+  if (topic.subTopic.length != 0) {
+    topic.subTopic.forEach(element => {
+      unsuscribe(element,idClient);
+    });
+  }
+  topic.popSubscriber(idClient);
+  return;
+}
+
 module.exports = {
   suscribe:suscribe,
   publish:publish
