@@ -104,5 +104,6 @@ function unsuscribe(topic,idClient) {
 
 module.exports = {
   suscribe:suscribe,
-  publish:publish
+  publish:publish,
+  unsuscribe:unsuscribe
 }

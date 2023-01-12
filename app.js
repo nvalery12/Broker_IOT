@@ -48,7 +48,6 @@ io.on('connect', (socket) => {
   });
 
   socket.on('SUBSCRIBE', (msg, ruta, callback) => {
-      // suscribe(topic,route,socket.id);
 
       // eventos.suscribe(topic, ruta, socket.id);
 
@@ -58,7 +57,7 @@ io.on('connect', (socket) => {
   });
 
   socket.on('UNSUBSCRIBE', (msg, ruta, callback) => {
-      // unsuscribe(topic,route,socket.id)
+      // eventos.unsuscribe(topic,route,socket.id)
 
       escribirLog(socket, ruta, 'UNSUBSCRIBE')
       callback("UNSUBSCRIBE CON EXITO");
