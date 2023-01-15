@@ -1,3 +1,13 @@
+//Correcion de la ruta
+function fix(route) {
+  let raiz = route.index('/');
+  if(raiz == 0 && route.length > 1){
+    return route.slice(raiz + 1);
+  } else {
+    return route;
+  }
+}
+// Buscar el subtopic al que se tiene que ir
 function search(topic,route) {
   //Verificamos la existencia del subtopic a movernos
 
@@ -35,9 +45,7 @@ function publish (topic, route, msg){
     return;
   } else {
     //Corregimos la ruta en caso de tener / al inicio
-    if(raiz == 0 && route.length > 1){
-      route = route.slice(raiz + 1);
-    }
+    route = fix(route);
 
     //Enviamos el mensaje a todos los subscriptores en el topic.
     topic.emitPublish(msg);
@@ -66,9 +74,7 @@ function suscribe(topic, route, idClient) {
     return;
   } else {
     //Corregimos la ruta en caso de tener / al inicio
-    if(raiz == 0 && route.length > 1){
-      route = route.slice(raiz + 1);
-    }
+    route = fix(route);
 
     // Conseguimos subtopic a movernos y el resto de la ruta
     let next = route.slice(0,raiz + 1);
@@ -85,7 +91,19 @@ function suscribe(topic, route, idClient) {
   }
 }
 
+//Desubscribir
+function unsuscribe(topic,idClient) {
+  if (topic.subTopic.length != 0) {
+    topic.subTopic.forEach(element => {
+      unsuscribe(element,idClient);
+    });
+  }
+  topic.popSubscriber(idClient);
+  return;
+}
+
 module.exports = {
   suscribe:suscribe,
-  publish:publish
+  publish:publish,
+  unsuscribe:unsuscribe
 }
