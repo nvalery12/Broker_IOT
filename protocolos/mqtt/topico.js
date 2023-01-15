@@ -1,6 +1,7 @@
 const { io } = require("../../node_modules/socket.io-client");
+let socket = io.connect("http://localhost:3000", { forceNew: true });
 
-let socket = io();
+
 
 class Topic{
 
@@ -41,12 +42,12 @@ class Topic{
     
   };
 
-  emitPublish(msg, route, topic){
+  emitPublish(msg){
     if (this.subscribers.length == 0) {
       this.savedMessage = msg;
     } else {
       this.subscribers.forEach(element => {
-        socket.to(element).emit('xsss',msg);
+        io.to(element).emit("xsss", msg); 
       });
     }
   }

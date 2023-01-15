@@ -10,9 +10,7 @@ function fix(route) {
 // Buscar el subtopic al que se tiene que ir
 function search(topic,route) {
   //Verificamos la existencia del subtopic a movernos
-
   let index;
-
   if (topic.subTopic.length == 0) {
     topic.addSubTopic(route);
   }
@@ -23,7 +21,6 @@ function search(topic,route) {
       index = i;
     }
   }
-
   //En caso de no existir el subtopic se crea
 
   if (index == undefined) {
@@ -41,14 +38,15 @@ function publish (topic, route, msg){
   //Validamos si estamos en la ruta destino, o por defecto, raiz
   if (raiz == 0 && route.length == 1) {
     //Enviamos el mensaje a los subscriptores del topic
-    topic.emitPublish(msg);
+    topic.emitPublish(topic.topicName+': '+msg);
     return;
   } else {
     //Corregimos la ruta en caso de tener / al inicio
     route = fix(route);
+    raiz = route.indexOf('/');
 
     //Enviamos el mensaje a todos los subscriptores en el topic.
-    topic.emitPublish(msg);
+    //topic.emitPublish(route+': '+msg);
 
     // Conseguimos subtopic a movernos y el resto de la ruta
     let next = route.slice(0,raiz);
