@@ -34,7 +34,9 @@ class Topic{
   };
 
   addSubTopic(subTopicName){
-
+    if (this.subTopic == undefined) {
+      this.subTopic = [];
+    }
     this.subTopic.push(subTopicName);
     
   };

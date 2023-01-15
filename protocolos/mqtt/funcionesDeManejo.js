@@ -1,6 +1,6 @@
 //Correcion de la ruta
 function fix(route) {
-  let raiz = route.index('/');
+  let raiz = route.indexOf('/');
   if(raiz == 0 && route.length > 1){
     return route.slice(raiz + 1);
   } else {
@@ -13,7 +13,7 @@ function search(topic,route) {
 
   let index;
 
-  if (topic.subTopic.length == 0) {
+  if (topic.subTopic== undefined) {
     topic.addSubTopic(route);
   }
 

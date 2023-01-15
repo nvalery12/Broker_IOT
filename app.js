@@ -33,14 +33,14 @@ app.get('/', (req, res) => {
 // ------------------------------------------------------
 //Instancia de los topicos
 
-const topico = new Topic('/')
+const topico = new Topic('/');
 
 // ------------------------------------------------------
 
 io.on('connect', (socket) => {
   socket.on('PUBLISH', (msg, ruta, callback) => {
       
-      // eventos.publish(topic, ruta, msg);
+      eventos.publish(topic, ruta, msg);
 
       escribirLog(socket, ruta, 'PUBLISH')
       callback("PUBLICASTE CON EXITO");
@@ -49,7 +49,7 @@ io.on('connect', (socket) => {
 
   socket.on('SUBSCRIBE', (msg, ruta, callback) => {
 
-      // eventos.suscribe(topic, ruta, socket.id);
+      eventos.suscribe(topic, ruta, socket.id);
 
       escribirLog(socket, ruta, 'SUBSCRIBE');
       callback("SUBSCRIBE CON EXITO");
@@ -57,9 +57,9 @@ io.on('connect', (socket) => {
   });
 
   socket.on('UNSUBSCRIBE', (msg, ruta, callback) => {
-      // eventos.unsuscribe(topic,route,socket.id)
+      eventos.unsuscribe(topic,route,socket.id);
 
-      escribirLog(socket, ruta, 'UNSUBSCRIBE')
+      escribirLog(socket, ruta, 'UNSUBSCRIBE');
       callback("UNSUBSCRIBE CON EXITO");
       console.log(socket.id);
   });

@@ -29,3 +29,4 @@ autor: ::1 Topico: /home/room/tv/ evento: UNSUBSCRIBE
 autor: ::1 Topico: /home/room/tv/ evento: PUBLISH
 autor: ::1 Topico: /home/room/tv/ evento: SUBSCRIBE
 autor: ::1 Topico: /home/room/tv/ evento: UNSUBSCRIBE
+autor: ::1 Topico: /hogar/ evento: SUBSCRIBE
