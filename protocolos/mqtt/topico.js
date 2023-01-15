@@ -42,7 +42,7 @@ class Topic{
   };
 
   emitPublish(msg, route, topic){
-    if (subscribers.length == 0) {
+    if (this.subscribers.length == 0) {
       this.savedMessage = msg;
     } else {
       this.subscribers.forEach(element => {

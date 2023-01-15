@@ -51,8 +51,8 @@ function publish (topic, route, msg){
     topic.emitPublish(msg);
 
     // Conseguimos subtopic a movernos y el resto de la ruta
-    let next = route.slice(0,raiz + 1);
-    let rest = route.slice(raiz + 1); 
+    let next = route.slice(0,raiz);
+    let rest = route.slice(raiz); 
 
     //Buscamos el subtopic a recorrer
 

@@ -38,3 +38,7 @@ autor: ::1 Topico: /hogar/casa/ evento: SUBSCRIBE
 autor: ::1 Topico: /hogat/casa/ evento: SUBSCRIBE
 autor: ::1 Topico: /hogar/casa/ evento: SUBSCRIBE
 autor: ::1 Topico: /hogar/casa/ evento: SUBSCRIBE
+autor: ::1 Topico: /casa/hogar/ evento: SUBSCRIBE
+autor: ::1 Topico: /casa/hogar/ evento: SUBSCRIBE
+autor: ::1 Topico: /casa/hogar/ evento: SUBSCRIBE
+autor: ::1 Topico: /casa/hogar/ evento: PUBLISH
