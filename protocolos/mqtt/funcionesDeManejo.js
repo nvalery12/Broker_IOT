@@ -13,7 +13,7 @@ function search(topic,route) {
 
   let index;
 
-  if (topic.subTopic== undefined) {
+  if (topic.subTopic.length == 0) {
     topic.addSubTopic(route);
   }
 
@@ -75,10 +75,10 @@ function suscribe(topic, route, idClient) {
   } else {
     //Corregimos la ruta en caso de tener / al inicio
     route = fix(route);
-
+    raiz = route.indexOf('/');
     // Conseguimos subtopic a movernos y el resto de la ruta
-    let next = route.slice(0,raiz + 1);
-    let rest = route.slice(raiz + 1); 
+    let next = route.slice(0,raiz);
+    let rest = route.slice(raiz);
 
     //Buscamos el subtopic
 
@@ -87,7 +87,6 @@ function suscribe(topic, route, idClient) {
     // Subscribimos en el subtopic
 
     suscribe(nextSubTopic,rest,idClient);
-
   }
 }
 
