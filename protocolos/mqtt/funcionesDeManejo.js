@@ -1,8 +1,16 @@
+//Correcion de la ruta
+function fix(route) {
+  let raiz = route.indexOf('/');
+  if(raiz == 0 && route.length > 1){
+    return route.slice(raiz + 1);
+  } else {
+    return route;
+  }
+}
+// Buscar el subtopic al que se tiene que ir
 function search(topic,route) {
   //Verificamos la existencia del subtopic a movernos
-
   let index;
-
   if (topic.subTopic.length == 0) {
     topic.addSubTopic(route);
   }
@@ -13,7 +21,6 @@ function search(topic,route) {
       index = i;
     }
   }
-
   //En caso de no existir el subtopic se crea
 
   if (index == undefined) {
@@ -25,26 +32,25 @@ function search(topic,route) {
 };
 
 // Publicar
-function publish (topic, route, msg){
+function publish (topic, route, msg,list){
   // Ubicamos el primer '/'
   let raiz = route.indexOf('/');
   //Validamos si estamos en la ruta destino, o por defecto, raiz
   if (raiz == 0 && route.length == 1) {
     //Enviamos el mensaje a los subscriptores del topic
-    topic.emitPublish(msg);
+    list.push(topic.emitPublish(topic.topicName+': '+msg));
     return;
   } else {
     //Corregimos la ruta en caso de tener / al inicio
-    if(raiz == 0 && route.length > 1){
-      route = route.slice(raiz + 1);
-    }
+    route = fix(route);
+    raiz = route.indexOf('/');
 
     //Enviamos el mensaje a todos los subscriptores en el topic.
-    topic.emitPublish(msg);
+    list.push(topic.emitPublish(route+': '+msg));
 
     // Conseguimos subtopic a movernos y el resto de la ruta
-    let next = route.slice(0,raiz + 1);
-    let rest = route.slice(raiz + 1); 
+    let next = route.slice(0,raiz);
+    let rest = route.slice(raiz); 
 
     //Buscamos el subtopic a recorrer
 
@@ -66,13 +72,11 @@ function suscribe(topic, route, idClient) {
     return;
   } else {
     //Corregimos la ruta en caso de tener / al inicio
-    if(raiz == 0 && route.length > 1){
-      route = route.slice(raiz + 1);
-    }
-
+    route = fix(route);
+    raiz = route.indexOf('/');
     // Conseguimos subtopic a movernos y el resto de la ruta
-    let next = route.slice(0,raiz + 1);
-    let rest = route.slice(raiz + 1); 
+    let next = route.slice(0,raiz);
+    let rest = route.slice(raiz);
 
     //Buscamos el subtopic
 
@@ -81,11 +85,22 @@ function suscribe(topic, route, idClient) {
     // Subscribimos en el subtopic
 
     suscribe(nextSubTopic,rest,idClient);
-
   }
+}
+
+//Desubscribir
+function unsuscribe(topic,idClient) {
+  if (topic.subTopic.length != 0) {
+    topic.subTopic.forEach(element => {
+      unsuscribe(element,idClient);
+    });
+  }
+  topic.popSubscriber(idClient);
+  return;
 }
 
 module.exports = {
   suscribe:suscribe,
-  publish:publish
+  publish:publish,
+  unsuscribe:unsuscribe
 }

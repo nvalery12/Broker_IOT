@@ -1,7 +1,3 @@
-const { io } = require("../../node_modules/socket.io-client");
-
-let socket = io();
-
 class Topic{
 
 	constructor(topicName){
@@ -34,18 +30,22 @@ class Topic{
   };
 
   addSubTopic(subTopicName){
-
-    this.subTopic.push(subTopicName);
+    if (this.subTopic == undefined) {
+      this.subTopic = [];
+    }
+    this.subTopic.push( new Topic(subTopicName));
     
   };
 
-  emitPublish(msg, route, topic){
-    if (subscribers.length == 0) {
+  emitPublish(msg,list){
+    if (this.subscribers.length == 0) {
       this.savedMessage = msg;
     } else {
+      let lista = [];
       this.subscribers.forEach(element => {
-        socket.to(element).emit('xsss',msg);
+        lista.push([msg,element]);
       });
+      return lista;
     }
   }
 }
