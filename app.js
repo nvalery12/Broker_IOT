@@ -37,15 +37,15 @@ const topic = new Topic('/');
 // ------------------------------------------------------
 
 io.on('connect', (socket) => {
-  socket.on('PUBLISH', (msg, ruta, callback) => {
-      eventos.publish(topic, ruta, msg);
+
+  socket.on('PUBLISH', (msg, ruta, socket) => {
+      eventos.publish(topic, ruta, msg, socket);
 
       escribirLog(socket, ruta, 'PUBLISH')
       callback("PUBLICASTE CON EXITO");
   });
 
   socket.on('SUBSCRIBE', (msg, ruta, callback) => {
-      eventos.suscribe(topic, ruta, socket.id);
 
       escribirLog(socket, ruta, 'SUBSCRIBE');
       callback("SUBSCRIBE CON EXITO");

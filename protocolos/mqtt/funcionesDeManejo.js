@@ -32,13 +32,14 @@ function search(topic,route) {
 };
 
 // Publicar
-function publish (topic, route, msg){
+function publish (topic, route, msg, socket){
   // Ubicamos el primer '/'
   let raiz = route.indexOf('/');
   //Validamos si estamos en la ruta destino, o por defecto, raiz
   if (raiz == 0 && route.length == 1) {
     //Enviamos el mensaje a los subscriptores del topic
-    topic.emitPublish(topic.topicName+': '+msg);
+    topic.emitPublish(topic.topicName+': '+msg, socket);
+
     return;
   } else {
     //Corregimos la ruta en caso de tener / al inicio
