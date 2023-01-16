@@ -32,13 +32,13 @@ function search(topic,route) {
 };
 
 // Publicar
-function publish (topic, route, msg){
+function publish (topic, route, msg,list){
   // Ubicamos el primer '/'
   let raiz = route.indexOf('/');
   //Validamos si estamos en la ruta destino, o por defecto, raiz
   if (raiz == 0 && route.length == 1) {
     //Enviamos el mensaje a los subscriptores del topic
-    topic.emitPublish(topic.topicName+': '+msg);
+    list.push(topic.emitPublish(topic.topicName+': '+msg));
     return;
   } else {
     //Corregimos la ruta en caso de tener / al inicio
@@ -46,7 +46,7 @@ function publish (topic, route, msg){
     raiz = route.indexOf('/');
 
     //Enviamos el mensaje a todos los subscriptores en el topic.
-    //topic.emitPublish(route+': '+msg);
+    list.push(topic.emitPublish(route+': '+msg));
 
     // Conseguimos subtopic a movernos y el resto de la ruta
     let next = route.slice(0,raiz);

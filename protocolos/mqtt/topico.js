@@ -1,8 +1,3 @@
-const { io } = require("../../node_modules/socket.io-client");
-let socket = io.connect("http://localhost:3000", { forceNew: true });
-
-
-
 class Topic{
 
 	constructor(topicName){
@@ -42,13 +37,15 @@ class Topic{
     
   };
 
-  emitPublish(msg){
+  emitPublish(msg,list){
     if (this.subscribers.length == 0) {
       this.savedMessage = msg;
     } else {
+      let lista = [];
       this.subscribers.forEach(element => {
-        io.to(element).emit("xsss", msg); 
+        lista.push([msg,element]);
       });
+      return lista;
     }
   }
 }

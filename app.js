@@ -38,24 +38,27 @@ const topic = new Topic('/');
 
 io.on('connect', (socket) => {
   socket.on('PUBLISH', (msg, ruta, callback) => {
-      eventos.publish(topic, ruta, msg);
-
-      escribirLog(socket, ruta, 'PUBLISH')
-      callback("PUBLICASTE CON EXITO");
+    var list = [];
+    eventos.publish(topic, ruta, msg,list);
+    list.forEach(element => {
+      console.log('Socket: '+element[1]+' Mensaje: '+element[0]);
+    });
+    escribirLog(socket, ruta, 'PUBLISH')
+    callback("PUBLICASTE CON EXITO");
   });
 
   socket.on('SUBSCRIBE', (msg, ruta, callback) => {
-      eventos.suscribe(topic, ruta, socket.id);
+    eventos.suscribe(topic, ruta, socket.id);
 
-      escribirLog(socket, ruta, 'SUBSCRIBE');
-      callback("SUBSCRIBE CON EXITO");
+    escribirLog(socket, ruta, 'SUBSCRIBE');
+    callback("SUBSCRIBE CON EXITO");
   });
 
   socket.on('UNSUBSCRIBE', (msg, ruta, callback) => {
-      eventos.unsuscribe(topic,route,socket.id);
+    eventos.unsuscribe(topic,route,socket.id);
 
-      escribirLog(socket, ruta, 'UNSUBSCRIBE');
-      callback("UNSUBSCRIBE CON EXITO");
+    escribirLog(socket, ruta, 'UNSUBSCRIBE');
+    callback("UNSUBSCRIBE CON EXITO");
   });
 });
 
